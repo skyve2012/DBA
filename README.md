@@ -74,7 +74,7 @@ python ./subpopbench/train.py --algorithm DBCM --dataset CMNISTV2 --train_attr n
 
 ### Unkonwn Attribute and Different Train-validation Data Composition 
 ```bash
-python ./subpopbench/train.py --algorithm DBCM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_nam --sample_weights_path_valid  path/to/sample_weights/from/validation_set/model --sample_weights_path path/to/sample_weights/from/train_set/model  --tau_valid 1000. --tau_train 1. --cmnistv2_difficult 2pct --p_maj 0.98 --different_data_composition
+python ./subpopbench/train.py --algorithm DBCM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_nam --sample_weights_path_valid  path/to/sample_weights/from/validation_set/model --sample_weights_path path/to/sample_weights/from/train_set/model  --tau_valid 1000. --tau_train 1. --cmnistv2_difficult 2pct --p_maj 0.98 --reverse_logic
 ```
 
 ## Citation
