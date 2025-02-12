@@ -49,7 +49,7 @@ python ./subpopbench/train.py --algorithm ERM --dataset CMNISTV2 --train_attr no
 ```
 
 ### Obtain Sample Weights
-Once the models are trained, we can run the following code to obtain sample weights for the training set. The weights are saved in ``model.pkl`` as a dictionary with a key value: ``aligned_weights``. Note that we specify ``step=1`` to indicate no training. So the script will only obtain model pretrained weights and generate the sample weights for the trianing set.
+Once the models are trained, we can run the following code to obtain sample weights for the training set. The weights are saved in ``model.pkl`` as a dictionary with a key value: ``aligned_weights``. Note that we specify ``steps=1`` to indicate no training. So the script will only obtain model pretrained weights and generate the sample weights for the trianing set.
 
 ```bash
 # using training set model
