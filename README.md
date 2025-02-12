@@ -26,18 +26,56 @@ Alternatively, one can also refer to the [Change is Hard](https://github.com/Yyz
 
 ### Download datasets
 There are three datasets discussed in the paper:
-* CMNIST ([Nam et al. 2020; Tsirigotis et al. 2024](https://proceedings.neurips.cc/paper/2020/file/eddc3427c5d77843c2253f1e799fe933-Paper.pdf))
+* ColorMNIST ([Nam et al. 2020; Tsirigotis et al. 2024](https://proceedings.neurips.cc/paper/2020/file/eddc3427c5d77843c2253f1e799fe933-Paper.pdf))
 * Waterbirds ([Wah et al., 2011](https://authors.library.caltech.edu/27452/))
 * CivilComments ([Borkan et al., 2019](https://arxiv.org/abs/1903.04561)) from the [WILDS benchmark](https://arxiv.org/abs/2012.07421)
 
 To facilitate the implementation, the datasets can be found at the [Google Drive]().
 
-## Obtain Sample Weights
+## Dataset Bias Correction Method
+To start with the correction method, we need to follow the three steps in order.
 
+### Model Overfit
+In the following, we use ColorMNIST dataset as an example. The same logic can be applied to other datasets.
+The first step is to overfit the training and the validation set to generate two models. To achieve this, run the following code:
+```bash
+# overfit on the training set 
+python ./subpopbench/train.py --algorithm ERM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_name --cmnistv2_difficult 2pct 
+```
 
-## Correct the Bias
+```bash
+# overfit on the validation set 
+python ./subpopbench/train.py --algorithm ERM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_name --cmnistv2_difficult 2pct --switch_train_valid
+```
 
+### Obtain Sample Weights
+Once the models are trained, we can run the following code to obtain sample weights for the training set. The weights are saved in ``model.pkl`` as a dictionary with a key value: ``aligned_weights``. Note that we specify ``step=1`` to indicate no training. So the script will only obtain model pretrained weights and generate the sample weights for the trianing set.
 
+```bash
+# using training set model
+python ./subpopbench/train.py --algorithm ERM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_name --gen_weights --pretrained path/to/model/overfitted/on/training/set --steps 1 --cmnistv2_difficult 2pct --switch_train_valid
+```
+
+```bash
+# using training set model
+python ./subpopbench/train.py --algorithm ERM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_name --gen_weights --pretrained path/to/model/overfitted/on/validation/set --steps 1 --cmnistv2_difficult 2pct
+```
+
+### Correct the Bias
+To correct bias, one need to first convert the sample weights into respective ``.npy`` files and run the following code depending on different situations
+### Known Attribute
+```bash
+python ./subpopbench/train.py --algorithm DBCM --dataset CMNISTV2 --train_attr yes --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_nam --sample_weights_path_valid  path/to/sample_weights/from/validation_set/model --sample_weights_path path/to/sample_weights/from/train_set/model  --tau_valid 1000. --tau_train 1. --cmnistv2_difficult 2pct --p_maj 0.98
+```
+### Unkonwn Attribute and Same Train-validation Data Composition 
+```bash
+python ./subpopbench/train.py --algorithm DBCM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_nam --sample_weights_path_valid  path/to/sample_weights/from/validation_set/model --sample_weights_path path/to/sample_weights/from/train_set/model  --tau_valid 1000. --tau_train 1. --cmnistv2_difficult 2pct --p_maj 0.98
+```
+
+### Unkonwn Attribute and Different Train-validation Data Composition 
+```bash
+python ./subpopbench/train.py --algorithm DBCM --dataset CMNISTV2 --train_attr no --data_dir path/to/dataset/parent/folder --output_dir path/to/model/folder --output_folder_name output_folder_nam --sample_weights_path_valid  path/to/sample_weights/from/validation_set/model --sample_weights_path path/to/sample_weights/from/train_set/model  --tau_valid 1000. --tau_train 1. --cmnistv2_difficult 2pct --p_maj 0.98 --different_data_composition
+```
 
 ## Citation
 
