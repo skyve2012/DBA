@@ -77,6 +77,7 @@ if __name__ == "__main__":
     parser.add_argument('--tau_train', type=float, help='calibration value during final stage trianing', default=1.0)
     parser.add_argument('--sample_weights_path_valid', type=str, default='', help='path to load sample weights for validation set')
     parser.add_argument('--sample_weights_path_valid_test', type=str, default='', help='path to load sample weights for validation set, used to match test')
+    parser.add_argument('--reverse_logic', action='store_true', help='reverse the correction logic') 
     parser.add_argument('--p_maj', type=float, help='p_maj ratio', default=.99)
     
     
@@ -190,7 +191,7 @@ if __name__ == "__main__":
                         L = 8
                 ttt = np.abs(np.load(args.sample_weights_path) - np.load(args.sample_weights_path_valid))
 
-                if args.dataset == 'Waterbirds':
+                if (args.dataset == 'Waterbirds') ^ args.reverse_logic:
                     diff_train_val_p_y_x = misc.obtain_proper_sample_weights(np.load(args.sample_weights_path), 
                                                                 args.tau_train, adjustment=0.)
                 else:
