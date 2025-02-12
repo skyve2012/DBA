@@ -1,7 +1,7 @@
 # Dataset Bias Analysis Framework
 
 <p align="center">
-  <img src="assets/subpop_figure.pdf" align="center" width="80%">
+  <img src="assets/subpop.png" align="center" width="80%">
 </p>
 
 ## Overview
