@@ -30,7 +30,7 @@ There are three datasets discussed in the paper:
 * Waterbirds ([Wah et al., 2011](https://authors.library.caltech.edu/27452/))
 * CivilComments ([Borkan et al., 2019](https://arxiv.org/abs/1903.04561)) from the [WILDS benchmark](https://arxiv.org/abs/2012.07421)
 
-To facilitate the implementation, the datasets can be found at the [Google Drive](https://drive.google.com/drive/folders/1a76Pzxd7nN4wmonmfv7ybzO9UFGFVePP?usp=share_link).
+To facilitate the implementation, the datasets can be found at the [Google Drive](https://drive.google.com/drive/folders/1a76Pzxd7nN4wmonmfv7ybzO9UFGFVePP?usp=share_link).And you need to download and unzip all datasets into different subfolders and put them under one parent folder.
 
 ## Dataset Bias Correction Method
 To start with the correction method, we need to follow the three steps in order.
